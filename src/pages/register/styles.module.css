@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../assets/bg-cinema.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.register_form {
+  background-color: white;
+  max-width: 450px;
+  width: 90%;
+  padding: 30px;
+  border-radius: 10px;
+}
