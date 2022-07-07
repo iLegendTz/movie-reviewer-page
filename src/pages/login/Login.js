@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 
 import { apiURL } from '../../api/API';
 
+import { ErrorMessage } from '../../components/ErrorMessage';
+
 import { useForm } from '../../hooks/useForm';
 
 import styles from './styles.module.css';
 
 export const Login = () => {
   const [error, setError] = useState({
-    data: { message: '', code: 0 },
+    data: { message: '', code: '' },
     status: false,
   });
 
@@ -39,14 +41,45 @@ export const Login = () => {
       return;
     }
 
-    setError({ data: { message: '', code: 0 }, status: false });
+    setError({ data: { message: '', code: '' }, status: false });
     // TODO Guardar credenciales y completar el proceso de logueo
+  };
+
+  const ErrorMessageChild = () => {
+    if (error.data.code === 'ER_NOT_ACTIVATED') {
+      // TODO Crear pagina para activar la cuenta
+      return (
+        <>
+          {error.data.message}
+          <br />
+          Activa tu cuenta haciendo <a href="#">click aqui</a>
+        </>
+      );
+    }
+
+    const errorsArray = error.data.message.split('\n');
+    return (
+      <>
+        {errorsArray.map((errorMessage) => {
+          return (
+            <>
+              {errorMessage}
+              <br />
+            </>
+          );
+        })}
+      </>
+    );
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.login_form}>
-        <ErrorMessage error={error} />
+        {error.status && (
+          <ErrorMessage>
+            <ErrorMessageChild />
+          </ErrorMessage>
+        )}
         <h2 className="text-center mb-3">Iniciar sesion</h2>
         <div className="mb-3">
           <label className="form-label" htmlFor="email">
@@ -92,29 +125,6 @@ export const Login = () => {
           No tienes una cuenta? <Link to={'/register'}>Registrate!</Link>
         </p>
       </form>
-    </div>
-  );
-};
-
-const ErrorMessage = ({ error: { status, data } }) => {
-  if (!status) {
-    return <></>;
-  }
-
-  const { message, code } = data;
-  if (code === 'ER_NOT_ACTIVATED') {
-    // TODO Crear pagina para activar la cuenta
-    return (
-      <div className="alert alert-danger text-center" role="alert">
-        {message}
-        <br />
-        Haz <a href="#">click aqui</a> para activarla.
-      </div>
-    );
-  }
-  return (
-    <div className="alert alert-danger text-center" role="alert">
-      {message}
     </div>
   );
 };
