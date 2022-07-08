@@ -94,7 +94,8 @@ export const Register = () => {
 
         {registerSuccessfull && (
           <div className="alert alert-success" role="alert">
-            Registro completado con exito
+            Registro completado con exito, verifica tu email para activar tu
+            cuenta.
           </div>
         )}
         <h2 className="text-center mb-3">Registrate</h2>
