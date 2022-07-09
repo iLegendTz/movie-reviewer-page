@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 
 import { apiURL } from '../../api/API';
 
+import { textToComponent } from '../../utils/textToComponent';
+
 import { useForm } from '../../hooks/useForm';
 
-import { ErrorMessage } from '../../components/ErrorMessage';
+import { ApiResponseMessage } from '../../components/ApiResponseMessage';
 
 import styles from './styles.module.css';
 
 export const Register = () => {
-  const [error, setError] = useState({
+  const [apiResponse, setApiResponse] = useState({
     data: { message: '', code: '' },
-    status: false,
+    error: null,
+    children: <></>,
   });
-
-  const [registerSuccessfull, setRegisterSuccessful] = useState(false);
 
   const {
     form: { username, email, password, password2 },
@@ -28,76 +29,62 @@ export const Register = () => {
     e.preventDefault();
 
     if (password !== password2) {
-      setError({
+      setApiResponse({
         data: {
-          message: 'Los passwords no concuerdan, verfica los campos',
-          code: 'ER_PASSWORDS_NO_MATCH',
+          message: 'Los passwords no concuerdan, verifica los campos',
+          code: 'ER_PASSWORD_NO_MATCH',
         },
-        status: true,
+        error: true,
+        children: <>Los passwords no concuerdan, verifica los campos</>,
       });
-
-      setRegisterSuccessful(false);
 
       return;
     }
 
     const response = await axios
-      .post(`${apiURL}/users`, {
+      .post(`${apiURL}/users/`, {
         username: username,
         email: email,
         password: password,
       })
       .then((value) => value)
-      .catch((error) => {
-        const { response } = error;
+      .catch(({ response }) => response);
 
-        setRegisterSuccessful(false);
-
-        return response;
-      });
+    console.log(response);
 
     if (response.status !== 200) {
-      setError({ data: response.data, status: true });
-      setRegisterSuccessful(false);
+      if (response.data === undefined) {
+        setApiResponse({
+          response: undefined,
+          error: true,
+          children: <>Error al conectar con el servidor intente mas tarde.</>,
+        });
+
+        return;
+      }
+
+      setApiResponse({
+        response: response.data,
+        error: true,
+        children: textToComponent(response.data.message),
+      });
+
       return;
     }
 
-    setError({ data: { message: '', code: '' }, status: false });
-    setRegisterSuccessful(true);
-    setForm({ username: '', email: '', password: '', password2: '' });
-  };
+    setApiResponse({
+      response: response.data,
+      error: false,
+      children: textToComponent(response.data.message),
+    });
 
-  const ErrorMessageChild = () => {
-    const errorsArray = error.data.message.split('\n');
-    return (
-      <>
-        {errorsArray.map((errorMessage) => {
-          return (
-            <>
-              {errorMessage}
-              <br />
-            </>
-          );
-        })}
-      </>
-    );
+    setForm({ username: '', email: '', password: '', password2: '' });
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.register_form}>
-        {error.status && (
-          <ErrorMessage>
-            <ErrorMessageChild />
-          </ErrorMessage>
-        )}
-
-        {registerSuccessfull && (
-          <div className="alert alert-success" role="alert">
-            Registro completado con exito, verifica tu email para activar tu
-            cuenta.
-          </div>
-        )}
+        <ApiResponseMessage apiResponse={apiResponse} />
         <h2 className="text-center mb-3">Registrate</h2>
         <div className="mb-3">
           <label className="form-label" htmlFor="username">
