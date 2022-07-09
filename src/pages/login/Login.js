@@ -4,16 +4,18 @@ import { Link } from 'react-router-dom';
 
 import { apiURL } from '../../api/API';
 
-import { ErrorMessage } from '../../components/ErrorMessage';
+import { ApiResponseMessage } from '../../components/ApiResponseMessage';
+import { textToComponent } from '../../utils/textToComponent';
 
 import { useForm } from '../../hooks/useForm';
 
 import styles from './styles.module.css';
 
 export const Login = () => {
-  const [error, setError] = useState({
+  const [apiResponse, setApiResponse] = useState({
     data: { message: '', code: '' },
-    status: false,
+    error: null,
+    children: <></>,
   });
 
   const {
@@ -30,56 +32,96 @@ export const Login = () => {
         password: password,
       })
       .then((value) => value)
-      .catch((error) => {
-        const { response } = error;
-
-        return response;
-      });
+      .catch(({ response }) => response);
 
     if (response.status !== 200) {
-      setError({ data: response.data, status: true });
+      if (response.data === undefined) {
+        setApiResponse({
+          response: undefined,
+          error: true,
+          children: <>Error al conectar con el servidor intente mas tarde.</>,
+        });
+
+        return;
+      }
+
+      let children = <>{textToComponent(response.data.message)}</>;
+
+      if (response.data.code === 'ER_NOT_ACTIVATED') {
+        children = (
+          <>
+            {textToComponent(response.data.message)}
+            Haz{' '}
+            <span
+              style={{ color: 'blue', cursor: 'pointer' }}
+              onClick={handleResendEmail}
+            >
+              click aqui
+            </span>{' '}
+            para activarla
+          </>
+        );
+      }
+
+      setApiResponse({
+        response: response.data,
+        error: true,
+        children: children,
+      });
       return;
     }
 
-    setError({ data: { message: '', code: '' }, status: false });
     // TODO Guardar credenciales y completar el proceso de logueo
+    console.log('login');
   };
 
-  const ErrorMessageChild = () => {
-    if (error.data.code === 'ER_NOT_ACTIVATED') {
-      // TODO Crear pagina para activar la cuenta
-      return (
-        <>
-          {error.data.message}
-          <br />
-          Activa tu cuenta haciendo <a href="#">click aqui</a>
-        </>
-      );
+  const handleResendEmail = async (e) => {
+    e.preventDefault();
+
+    setApiResponse({
+      data: { message: '', code: '' },
+      error: null,
+      children: <></>,
+    });
+
+    const response = await axios
+      .post(`${apiURL}/users/resend-activation-email`, {
+        email: email,
+      })
+      .then((value) => value)
+      .catch(({ response }) => response);
+
+    if (response.status !== 200) {
+      if (response.data === undefined) {
+        setApiResponse({
+          response: undefined,
+          error: true,
+          children: <>Error al conectar con el servidor intente mas tarde.</>,
+        });
+
+        return;
+      }
+
+      setApiResponse({
+        response: response.data,
+        error: true,
+        children: textToComponent(response.data.message),
+      });
+
+      return;
     }
 
-    const errorsArray = error.data.message.split('\n');
-    return (
-      <>
-        {errorsArray.map((errorMessage) => {
-          return (
-            <>
-              {errorMessage}
-              <br />
-            </>
-          );
-        })}
-      </>
-    );
+    setApiResponse({
+      response: response.data,
+      error: false,
+      children: textToComponent(response.data.message),
+    });
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.login_form}>
-        {error.status && (
-          <ErrorMessage>
-            <ErrorMessageChild />
-          </ErrorMessage>
-        )}
+        <ApiResponseMessage apiResponse={apiResponse} />
         <h2 className="text-center mb-3">Iniciar sesion</h2>
         <div className="mb-3">
           <label className="form-label" htmlFor="email">
