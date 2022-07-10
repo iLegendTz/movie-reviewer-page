@@ -29,6 +29,16 @@ export const ActivateAccount = () => {
         .catch(({ response }) => response);
 
       if (response.status !== 200) {
+        if (response.data === undefined) {
+          setApiResponse({
+            response: undefined,
+            error: true,
+            children: <>Error al conectar con el servidor intente mas tarde.</>,
+          });
+
+          return;
+        }
+
         setApiResponse({
           response: response.data,
           error: true,
