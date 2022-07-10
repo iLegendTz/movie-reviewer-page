@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+
+import { AuthContext } from '../../context/AuthContext';
 
 import { apiURL } from '../../api/API';
 
 import { ApiResponseMessage } from '../../components/ApiResponseMessage';
+
 import { textToComponent } from '../../utils/textToComponent';
 
 import { useForm } from '../../hooks/useForm';
@@ -12,6 +15,8 @@ import { useForm } from '../../hooks/useForm';
 import styles from './styles.module.css';
 
 export const Login = () => {
+  const { onLogin } = useContext(AuthContext);
+
   const [apiResponse, setApiResponse] = useState({
     data: { message: '', code: '' },
     error: null,
@@ -71,8 +76,11 @@ export const Login = () => {
       return;
     }
 
-    // TODO Guardar credenciales y completar el proceso de logueo
-    console.log('login');
+    onLogin({
+      email: response.data.email,
+      username: response.data.username,
+      token: response.data.token,
+    });
   };
 
   const handleResendEmail = async (e) => {
