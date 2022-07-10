@@ -50,8 +50,6 @@ export const Register = () => {
       .then((value) => value)
       .catch(({ response }) => response);
 
-    console.log(response);
-
     if (response.status !== 200) {
       if (response.data === undefined) {
         setApiResponse({
