@@ -1,27 +1,26 @@
 import React from 'react';
 
-import { useMovie } from '../hooks/useMovie';
+import { usePopularMovies } from '../hooks/usePopularMovies';
+import { useNowPlayingMovies } from '../hooks/useNowPlayingMovies';
 
 import { Poster } from './Poster';
 
 import styles from '../styles/components/CarouselStyles.module.css';
+import { useTopRatedMovies } from '../hooks/useTopRatedMovies';
 
-export const MoviesCarousel = ({ type = 'popular' }) => {
-  const { popular, topRated, latest } = useMovie({ type: type, page: 1 });
+export const MoviesCarousel = () => {
+  // const { popular, topRated, latest } = useMovie({ type: type, page: 1 });
+  const { popularMovies } = usePopularMovies({ page: 1 });
+  const { nowPlayingMovies } = useNowPlayingMovies({ page: 1 });
+  const { topRatedMovies } = useTopRatedMovies({ page: 1 });
 
-  switch (type) {
-    case 'popular':
-      return <Carousel movies={popular} />;
-
-    case 'top_rated':
-      return <Carousel movies={topRated} />;
-
-    case 'now_playing':
-      return <Carousel movies={latest} />;
-
-    default:
-      return <Carousel movies={popular} />;
-  }
+  return (
+    <>
+      <Carousel movies={popularMovies} />
+      <Carousel movies={nowPlayingMovies} />
+      <Carousel movies={topRatedMovies} />
+    </>
+  );
 };
 
 const Carousel = ({ movies }) => {
