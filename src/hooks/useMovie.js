@@ -52,8 +52,6 @@ export const useMovie = ({ type = 'popular', page = 1 }) => {
       .then((response) => response)
       .catch((error) => error);
 
-    console.log(response);
-
     setNowPlaying(response.data.results);
   };
 
