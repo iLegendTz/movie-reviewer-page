@@ -92,7 +92,7 @@ const Carousel = ({ movies }) => {
   );
 };
 
-const MovieItem = ({ title, poster_path, vote_average, overview }) => {
+const MovieItem = ({ title, poster_path, overview }) => {
   return (
     <div className={styles.carousel_item}>
       <Poster
