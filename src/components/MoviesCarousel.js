@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { usePopularMovies } from '../hooks/usePopularMovies';
 import { useNowPlayingMovies } from '../hooks/useNowPlayingMovies';
@@ -6,10 +6,7 @@ import { useTopRatedMovies } from '../hooks/useTopRatedMovies';
 
 import { Poster } from './Poster';
 
-import {
-  hideCarousels,
-  removeClassActiveToCarouselTabs,
-} from '../utils/carousel';
+import { removeClassActiveToCarouselTabs } from '../utils/carousel';
 
 import styles from '../styles/components/CarouselStyles.module.css';
 
@@ -18,34 +15,30 @@ export const MoviesCarousel = () => {
   const { nowPlayingMovies } = useNowPlayingMovies({ page: 1 });
   const { topRatedMovies } = useTopRatedMovies({ page: 1 });
 
-  const handleTab = (e, carouselId) => {
-    hideCarousels(document.getElementsByName(`carousel_movies`));
+  const [selectedMovies, setSelectedMovies] = useState([]);
+
+  const handleTab = (e, movies) => {
     removeClassActiveToCarouselTabs(
       document.getElementsByName(`tabs_movies`),
       styles.carousel_tab_active
     );
-
-    const selectedCarousel = document.getElementById(carouselId);
     const selectedTab = e.target;
-
-    selectedCarousel.classList.remove('d-none');
     selectedTab.classList.add(styles.carousel_tab_active);
+
+    setSelectedMovies(movies);
   };
 
   useEffect(() => {
-    hideCarousels(document.getElementsByName(`carousel_movies`));
     removeClassActiveToCarouselTabs(
       document.getElementsByName(`tabs_movies`),
       styles.carousel_tab_active
     );
-
-    document
-      .getElementById(`carousel_popular_movies`)
-      .classList.remove(`d-none`);
     document
       .getElementById(`tab_popular_movies`)
       .classList.add(styles.carousel_tab_active);
-  }, []);
+
+    setSelectedMovies(popularMovies);
+  }, [popularMovies]);
 
   return (
     <div className={styles.carousel_container}>
@@ -54,7 +47,7 @@ export const MoviesCarousel = () => {
           id={`tab_popular_movies`}
           name={`tabs_movies`}
           className={`list-group-item`}
-          onClick={(e) => handleTab(e, 'carousel_popular_movies')}
+          onClick={(e) => handleTab(e, popularMovies)}
         >
           Populares
         </li>
@@ -62,7 +55,7 @@ export const MoviesCarousel = () => {
           id={`tab_now_playing_movies`}
           name={`tabs_movies`}
           className={`list-group-item`}
-          onClick={(e) => handleTab(e, 'carousel_now_playing_movies')}
+          onClick={(e) => handleTab(e, nowPlayingMovies)}
         >
           En cines
         </li>
@@ -70,22 +63,20 @@ export const MoviesCarousel = () => {
           id={`tab_top_rated_movies`}
           name={`tabs_movies`}
           className={`list-group-item`}
-          onClick={(e) => handleTab(e, 'carousel_top_rated_movies')}
+          onClick={(e) => handleTab(e, topRatedMovies)}
         >
           Mejor calificadas
         </li>
       </ul>
 
-      <Carousel movies={popularMovies} id={`carousel_popular_movies`} />
-      <Carousel movies={nowPlayingMovies} id={`carousel_now_playing_movies`} />
-      <Carousel movies={topRatedMovies} id={`carousel_top_rated_movies`} />
+      <Carousel movies={selectedMovies} />
     </div>
   );
 };
 
-const Carousel = ({ movies, id }) => {
+const Carousel = ({ movies }) => {
   return (
-    <div className={`${styles.carousel}`} name={`carousel_movies`} id={id}>
+    <div className={`${styles.carousel}`}>
       {movies.map((movie) => {
         return (
           <MovieItem
