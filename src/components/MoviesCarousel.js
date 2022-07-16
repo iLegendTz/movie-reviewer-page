@@ -101,7 +101,7 @@ const MovieItem = ({ title, poster_path, overview }) => {
         filePath={poster_path}
         styles={styles.carousel_item_img}
       />
-      <div className={`${styles.carousel_item_card_body}`}>
+      <div>
         <h6 className={styles.carousel_item_title}>{title}</h6>
         <p className={styles.carousel_item_overview}>{overview}</p>
       </div>
