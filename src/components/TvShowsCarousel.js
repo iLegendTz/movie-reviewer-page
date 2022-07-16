@@ -7,6 +7,7 @@ import { usePopularTvShows } from '../hooks/usePopularTvShows';
 import { useTopRatedTvShows } from '../hooks/useTopRatedTvShows';
 
 import styles from '../styles/components/CarouselStyles.module.css';
+import stylesItemPreview from '../styles/components/ItemPreview.module.css';
 
 export const TvShowsCarousel = () => {
   const { popularTvShows } = usePopularTvShows({ page: 1 });
@@ -102,8 +103,8 @@ const TvShowItem = ({ name, overview, poster_path }) => {
         styles={styles.carousel_item_img}
       />
       <div>
-        <h6 className={styles.carousel_item_title}>{name}</h6>
-        <p className={styles.carousel_item_overview}>{overview}</p>
+        <h6 className={stylesItemPreview.item_title}>{name}</h6>
+        <p className={stylesItemPreview.item_overview}>{overview}</p>
       </div>
     </div>
   );

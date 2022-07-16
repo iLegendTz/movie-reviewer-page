@@ -7,6 +7,7 @@ import { useTopRatedMovies } from '../hooks/useTopRatedMovies';
 import { Poster } from './Poster';
 
 import styles from '../styles/components/CarouselStyles.module.css';
+import stylesItemPreview from '../styles/components/ItemPreview.module.css';
 
 export const MoviesCarousel = () => {
   const { popularMovies } = usePopularMovies({ page: 1 });
@@ -102,8 +103,8 @@ const MovieItem = ({ title, poster_path, overview }) => {
         styles={styles.carousel_item_img}
       />
       <div>
-        <h6 className={styles.carousel_item_title}>{title}</h6>
-        <p className={styles.carousel_item_overview}>{overview}</p>
+        <h6 className={stylesItemPreview.item_title}>{title}</h6>
+        <p className={stylesItemPreview.item_overview}>{overview}</p>
       </div>
     </div>
   );
