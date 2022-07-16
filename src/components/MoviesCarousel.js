@@ -6,8 +6,6 @@ import { useTopRatedMovies } from '../hooks/useTopRatedMovies';
 
 import { Poster } from './Poster';
 
-import { removeClassActiveToCarouselTabs } from '../utils/carousel';
-
 import styles from '../styles/components/CarouselStyles.module.css';
 
 export const MoviesCarousel = () => {
@@ -18,10 +16,12 @@ export const MoviesCarousel = () => {
   const [selectedMovies, setSelectedMovies] = useState([]);
 
   const handleTab = (e, movies) => {
-    removeClassActiveToCarouselTabs(
-      document.getElementsByName(`tabs_movies`),
-      styles.carousel_tab_active
-    );
+    document
+      .getElementsByName(`tabs_movies`)
+      .forEach((element) =>
+        element.classList.remove(styles.carousel_tab_active)
+      );
+
     const selectedTab = e.target;
     selectedTab.classList.add(styles.carousel_tab_active);
 
@@ -29,10 +29,12 @@ export const MoviesCarousel = () => {
   };
 
   useEffect(() => {
-    removeClassActiveToCarouselTabs(
-      document.getElementsByName(`tabs_movies`),
-      styles.carousel_tab_active
-    );
+    document
+      .getElementsByName(`tabs_movies`)
+      .forEach((element) =>
+        element.classList.remove(styles.carousel_tab_active)
+      );
+
     document
       .getElementById(`tab_popular_movies`)
       .classList.add(styles.carousel_tab_active);

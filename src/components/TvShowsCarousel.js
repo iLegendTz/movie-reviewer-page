@@ -6,8 +6,6 @@ import { useOnTheAirTvShows } from '../hooks/useOnTheAirTvShows';
 import { usePopularTvShows } from '../hooks/usePopularTvShows';
 import { useTopRatedTvShows } from '../hooks/useTopRatedTvShows';
 
-import { removeClassActiveToCarouselTabs } from '../utils/carousel';
-
 import styles from '../styles/components/CarouselStyles.module.css';
 
 export const TvShowsCarousel = () => {
@@ -18,10 +16,12 @@ export const TvShowsCarousel = () => {
   const [selectedTvShows, setSelectedTvShows] = useState([]);
 
   const handleTab = (e, tvShows) => {
-    removeClassActiveToCarouselTabs(
-      document.getElementsByName(`tabs_tv_shows`),
-      styles.carousel_tab_active
-    );
+    document
+      .getElementsByName(`tabs_tv_shows`)
+      .forEach((element) =>
+        element.classList.remove(styles.carousel_tab_active)
+      );
+
     const selectedTab = e.target;
     selectedTab.classList.add(styles.carousel_tab_active);
 
@@ -29,10 +29,12 @@ export const TvShowsCarousel = () => {
   };
 
   useEffect(() => {
-    removeClassActiveToCarouselTabs(
-      document.getElementsByName(`tabs_tv_shows`),
-      styles.carousel_tab_active
-    );
+    document
+      .getElementsByName(`tabs_tv_shows`)
+      .forEach((element) =>
+        element.classList.remove(styles.carousel_tab_active)
+      );
+
     document
       .getElementById(`tab_popular_tv_shows`)
       .classList.add(styles.carousel_tab_active);
