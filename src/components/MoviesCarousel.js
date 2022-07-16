@@ -8,6 +8,7 @@ import { Poster } from './Poster';
 
 import styles from '../styles/components/CarouselStyles.module.css';
 import stylesItemPreview from '../styles/components/ItemPreview.module.css';
+import stylesTab from '../styles/components/Tab.module.css';
 
 export const MoviesCarousel = () => {
   const { popularMovies } = usePopularMovies({ page: 1 });
@@ -19,12 +20,10 @@ export const MoviesCarousel = () => {
   const handleTab = (e, movies) => {
     document
       .getElementsByName(`tabs_movies`)
-      .forEach((element) =>
-        element.classList.remove(styles.carousel_tab_active)
-      );
+      .forEach((element) => element.classList.remove(stylesTab.tab_active));
 
     const selectedTab = e.target;
-    selectedTab.classList.add(styles.carousel_tab_active);
+    selectedTab.classList.add(stylesTab.tab_active);
 
     setSelectedMovies(movies);
   };
@@ -32,13 +31,11 @@ export const MoviesCarousel = () => {
   useEffect(() => {
     document
       .getElementsByName(`tabs_movies`)
-      .forEach((element) =>
-        element.classList.remove(styles.carousel_tab_active)
-      );
+      .forEach((element) => element.classList.remove(stylesTab.tab_active));
 
     document
       .getElementById(`tab_popular_movies`)
-      .classList.add(styles.carousel_tab_active);
+      .classList.add(stylesTab.tab_active);
 
     setSelectedMovies(popularMovies);
   }, [popularMovies]);

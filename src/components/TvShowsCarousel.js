@@ -8,6 +8,7 @@ import { useTopRatedTvShows } from '../hooks/useTopRatedTvShows';
 
 import styles from '../styles/components/CarouselStyles.module.css';
 import stylesItemPreview from '../styles/components/ItemPreview.module.css';
+import stylesTab from '../styles/components/Tab.module.css';
 
 export const TvShowsCarousel = () => {
   const { popularTvShows } = usePopularTvShows({ page: 1 });
@@ -19,12 +20,10 @@ export const TvShowsCarousel = () => {
   const handleTab = (e, tvShows) => {
     document
       .getElementsByName(`tabs_tv_shows`)
-      .forEach((element) =>
-        element.classList.remove(styles.carousel_tab_active)
-      );
+      .forEach((element) => element.classList.remove(stylesTab.tab_active));
 
     const selectedTab = e.target;
-    selectedTab.classList.add(styles.carousel_tab_active);
+    selectedTab.classList.add(stylesTab.tab_active);
 
     setSelectedTvShows(tvShows);
   };
@@ -32,13 +31,11 @@ export const TvShowsCarousel = () => {
   useEffect(() => {
     document
       .getElementsByName(`tabs_tv_shows`)
-      .forEach((element) =>
-        element.classList.remove(styles.carousel_tab_active)
-      );
+      .forEach((element) => element.classList.remove(stylesTab.tab_active));
 
     document
       .getElementById(`tab_popular_tv_shows`)
-      .classList.add(styles.carousel_tab_active);
+      .classList.add(stylesTab.tab_active);
 
     setSelectedTvShows(popularTvShows);
   }, [popularTvShows]);
