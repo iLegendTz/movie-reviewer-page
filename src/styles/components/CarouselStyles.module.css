@@ -3,11 +3,6 @@
   overflow: auto;
 }
 
-.carousel_tab_active {
-  background-color: gray !important;
-  color: white !important;
-}
-
 .carousel_item {
   margin-right: 20px;
 }
