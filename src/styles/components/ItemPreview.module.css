@@ -1,0 +1,24 @@
+.item_poster {
+  width: 100%;
+  height: 400px;
+}
+
+@media (max-width: 576px) {
+  .item_poster {
+    height: 500px;
+  }
+}
+
+.item_title {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.item_overview {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
