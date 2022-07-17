@@ -1,0 +1,16 @@
+.tab_active {
+  background-color: gray !important;
+  color: white !important;
+}
+
+@media (max-width: 992px) {
+  .tab_hide {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .tab_hide > span {
+    display: none;
+  }
+}
