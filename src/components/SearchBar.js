@@ -1,21 +1,8 @@
 import React, { useEffect } from 'react';
-import {
-  createSearchParams,
-  useNavigate,
-  useLocation,
-  matchRoutes,
-  useSearchParams,
-} from 'react-router-dom';
 
 import { useForm } from '../hooks/useForm';
 
-export const SearchBar = ({ initialQuery = '' }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  // eslint-disable-next-line no-unused-vars
-  const [currentQueryParameters, setSearchParams] = useSearchParams();
-  const newQueryParams = new URLSearchParams();
-
+export const SearchBar = ({ initialQuery = '', fn_search }) => {
   const {
     form: { query },
     handleFormChange,
@@ -28,17 +15,7 @@ export const SearchBar = ({ initialQuery = '' }) => {
       return;
     }
 
-    const match = matchRoutes([{ path: '/search' }], location);
-
-    if (!match) {
-      navigate({
-        pathname: '/search',
-        search: createSearchParams({ query: query }).toString(),
-      });
-    } else {
-      newQueryParams.set('query', query);
-      setSearchParams(newQueryParams);
-    }
+    fn_search(query);
   };
 
   useEffect(() => {
@@ -51,7 +28,7 @@ export const SearchBar = ({ initialQuery = '' }) => {
   }, [query]);
 
   return (
-    <form className='mb-4'>
+    <form className="mb-4" onSubmit={handleSearch}>
       <div className="input-group">
         <input
           className="form-control rounded"
