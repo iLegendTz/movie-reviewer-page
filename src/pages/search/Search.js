@@ -57,6 +57,10 @@ export const Search = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   return (
     <div className="container">
       <SearchBar initialQuery={query} fn_search={fn_search} />
