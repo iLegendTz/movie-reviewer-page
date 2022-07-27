@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 import { apiURL } from '../../api/API';
 
-import { ApiResponseMessage } from '../../components/ApiResponseMessage';
+import { ApiResponseMessage } from '../../components/ui/ApiResponseMessage';
 
 import { textToComponent } from '../../utils/textToComponent';
 

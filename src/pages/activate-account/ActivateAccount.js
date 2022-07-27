@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { ApiResponseMessage } from '../../components/ApiResponseMessage';
 import { textToComponent } from '../../utils/textToComponent';
+
+import { ApiResponseMessage } from '../../components/ui/ApiResponseMessage';
 
 import { apiURL } from '../../api/API';
 

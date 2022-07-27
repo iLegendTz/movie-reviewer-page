@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { apiKeyMovieDB, apiURLMovieDB } from '../api/MovieDBAPI';
+import { apiKeyMovieDB, apiURLMovieDB } from '../../api/MovieDBAPI';
 
-export const useTopRatedTvShows = ({ page }) => {
-  const [topRatedTvShows, setTopRatedTvShows] = useState([]);
+export const useSearchMovies = ({ query, page }) => {
+  const [movies, setMovies] = useState([]);
 
-  const searchTopRatedTvShows = async () => {
+  const searchMovies = async () => {
     const response = await axios
-      .get(`${apiURLMovieDB}/tv/top_rated`, {
+      .get(`${apiURLMovieDB}/search/movie`, {
         params: {
+          query: query,
           language: 'es-MX',
           page: page,
           api_key: apiKeyMovieDB,
@@ -18,13 +19,13 @@ export const useTopRatedTvShows = ({ page }) => {
       .then((response) => response)
       .catch((error) => error);
 
-    setTopRatedTvShows(response.data.results);
+    setMovies(response.data);
   };
 
   useEffect(() => {
-    searchTopRatedTvShows();
+    searchMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [query, page]);
 
-  return { topRatedTvShows };
+  return { movies };
 };

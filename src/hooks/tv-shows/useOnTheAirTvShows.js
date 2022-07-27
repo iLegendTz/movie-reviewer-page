@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { apiKeyMovieDB, apiURLMovieDB } from '../api/MovieDBAPI';
+import { apiKeyMovieDB, apiURLMovieDB } from '../../api/MovieDBAPI';
 
-export const usePopularTvShows = ({ page }) => {
-  const [popularTvShows, setPopularTvShows] = useState([]);
+export const useOnTheAirTvShows = ({ page }) => {
+  const [onTheAirTvShows, setOnTheAirTvShows] = useState([]);
 
-  const searchPopularTvShows = async () => {
+  const searchOnTheAirTvShows = async () => {
     const response = await axios
-      .get(`${apiURLMovieDB}/tv/popular`, {
+      .get(`${apiURLMovieDB}/tv/on_the_air`, {
         params: {
           language: 'es-MX',
           region: 'US',
@@ -19,13 +19,13 @@ export const usePopularTvShows = ({ page }) => {
       .then((response) => response)
       .catch((error) => error);
 
-    setPopularTvShows(response.data.results);
+    setOnTheAirTvShows(response.data);
   };
 
   useEffect(() => {
-    searchPopularTvShows();
+    searchOnTheAirTvShows();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { popularTvShows };
+  return { onTheAirTvShows };
 };

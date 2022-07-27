@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Pagination } from '../../components/Pagination';
 import { Poster } from '../../components/Poster';
-import { SearchBar } from '../../components/SearchBar';
+import { SearchBar } from '../../components/ui/SearchBar';
+import { Pagination } from '../../components/ui/Pagination';
 
-import { useSearchMovies } from '../../hooks/useSearchMovies';
+import { useSearchMovies } from '../../hooks/movies/useSearchMovies';
 
 import stylesItemPreview from '../../styles/components/ItemPreview.module.css';
 import stylesTab from '../../styles/components/Tab.module.css';

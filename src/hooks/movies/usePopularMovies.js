@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { apiKeyMovieDB, apiURLMovieDB } from '../api/MovieDBAPI';
+import { apiKeyMovieDB, apiURLMovieDB } from '../../api/MovieDBAPI';
 
 export const usePopularMovies = ({ page }) => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -19,7 +19,7 @@ export const usePopularMovies = ({ page }) => {
       .then((response) => response)
       .catch((error) => error);
 
-    setPopularMovies(response.data.results);
+    setPopularMovies(response.data);
   };
 
   useEffect(() => {

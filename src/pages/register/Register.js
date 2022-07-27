@@ -8,7 +8,7 @@ import { textToComponent } from '../../utils/textToComponent';
 
 import { useForm } from '../../hooks/useForm';
 
-import { ApiResponseMessage } from '../../components/ApiResponseMessage';
+import { ApiResponseMessage } from '../../components/ui/ApiResponseMessage';
 
 import styles from './styles.module.css';
 

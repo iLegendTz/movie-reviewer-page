@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { usePopularMovies } from '../hooks/usePopularMovies';
-import { useNowPlayingMovies } from '../hooks/useNowPlayingMovies';
-import { useTopRatedMovies } from '../hooks/useTopRatedMovies';
+import { usePopularMovies } from '../../hooks/movies/usePopularMovies';
+import { useNowPlayingMovies } from '../../hooks/movies/useNowPlayingMovies';
+import { useTopRatedMovies } from '../../hooks/movies/useTopRatedMovies';
 
-import { Poster } from './Poster';
+import { Poster } from '../Poster';
 
-import styles from '../styles/components/CarouselStyles.module.css';
-import stylesItemPreview from '../styles/components/ItemPreview.module.css';
-import stylesTab from '../styles/components/Tab.module.css';
+import styles from '../../styles/components/CarouselStyles.module.css';
+import stylesItemPreview from '../../styles/components/ItemPreview.module.css';
+import stylesTab from '../../styles/components/Tab.module.css';
 
 export const MoviesCarousel = () => {
   const { popularMovies } = usePopularMovies({ page: 1 });
@@ -69,12 +69,16 @@ export const MoviesCarousel = () => {
         </li>
       </ul>
 
-      <Carousel movies={selectedMovies} />
+      <Carousel movies={selectedMovies.results} />
     </div>
   );
 };
 
 const Carousel = ({ movies }) => {
+  if (!movies) {
+    return <></>;
+  }
+
   return (
     <div className={`${styles.carousel}`}>
       {movies.map((movie) => {

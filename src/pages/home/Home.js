@@ -1,9 +1,9 @@
 import React from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
-import { MoviesCarousel } from '../../components/MoviesCarousel';
-import { SearchBar } from '../../components/SearchBar';
-import { TvShowsCarousel } from '../../components/TvShowsCarousel';
+import { MoviesCarousel } from '../../components/carousels/MoviesCarousel';
+import { TvShowsCarousel } from '../../components/carousels/TvShowsCarousel';
+import { SearchBar } from '../../components/ui/SearchBar';
 
 export const Home = () => {
   const navigate = useNavigate();

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { Poster } from './Poster';
+import { Poster } from '../Poster';
 
-import { useOnTheAirTvShows } from '../hooks/useOnTheAirTvShows';
-import { usePopularTvShows } from '../hooks/usePopularTvShows';
-import { useTopRatedTvShows } from '../hooks/useTopRatedTvShows';
+import { usePopularTvShows } from '../../hooks/tv-shows/usePopularTvShows';
+import { useOnTheAirTvShows } from '../../hooks/tv-shows/useOnTheAirTvShows';
+import { useTopRatedTvShows } from '../../hooks/tv-shows/useTopRatedTvShows';
 
-import styles from '../styles/components/CarouselStyles.module.css';
-import stylesItemPreview from '../styles/components/ItemPreview.module.css';
-import stylesTab from '../styles/components/Tab.module.css';
+import styles from '../../styles/components/CarouselStyles.module.css';
+import stylesItemPreview from '../../styles/components/ItemPreview.module.css';
+import stylesTab from '../../styles/components/Tab.module.css';
 
 export const TvShowsCarousel = () => {
   const { popularTvShows } = usePopularTvShows({ page: 1 });
@@ -69,12 +69,16 @@ export const TvShowsCarousel = () => {
         </li>
       </ul>
 
-      <Carousel tvShows={selectedTvShows} />
+      <Carousel tvShows={selectedTvShows.results} />
     </div>
   );
 };
 
 const Carousel = ({ tvShows }) => {
+  if (!tvShows) {
+    return <></>;
+  }
+
   return (
     <div className={`${styles.carousel}`}>
       {tvShows.map((tvShow) => {

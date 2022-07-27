@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { useForm } from '../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 
 export const SearchBar = ({ initialQuery = '', fn_search }) => {
   const {
