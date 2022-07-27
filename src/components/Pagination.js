@@ -1,44 +1,73 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
-export const Pagination = ({ page }) => {
-  // eslint-disable-next-line no-unused-vars
+export const Pagination = ({ page, totalPages }) => {
   const [currentQueryParameters, setSearchParams] = useSearchParams();
-  const newQueryParams = new URLSearchParams();
 
   const handlePage = (e) => {
     e.preventDefault();
+
+    currentQueryParameters.set('page', e.target.value);
+    setSearchParams(currentQueryParameters);
   };
 
   return (
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <Link class="page-link" to={'/'}>
-            Previous
-          </Link>
-        </li>
-        <li class="page-item">
-          <Link class="page-link" to={'/'}>
-            1
-          </Link>
-        </li>
-        <li class="page-item">
-          <Link class="page-link" to={'/'}>
-            2
-          </Link>
-        </li>
-        <li class="page-item">
-          <Link class="page-link" to={'/'}>
-            3
-          </Link>
-        </li>
-        <li class="page-item">
-          <Link class="page-link" to={'/'}>
-            Next
-          </Link>
-        </li>
+    <nav>
+      <ul className="pagination justify-content-center">
+        <PageItems
+          page={page}
+          totalPages={totalPages}
+          handlePage={handlePage}
+        />
       </ul>
     </nav>
+  );
+};
+
+const PageItems = ({ page, totalPages, handlePage }) => {
+  if (totalPages === 1) {
+    return (
+      <li className="page-item active">
+        <button className="page-link" type={'button'} value={page}>
+          {page}
+        </button>
+      </li>
+    );
+  }
+
+  return (
+    <>
+      {page - 1 >= 1 && (
+        <li className="page-item">
+          <button
+            className="page-link"
+            type={'button'}
+            onClick={handlePage}
+            value={page - 1}
+          >
+            {page - 1}
+          </button>
+        </li>
+      )}
+
+      <li className="page-item active">
+        <button className="page-link" type={'button'} value={page}>
+          {page}
+        </button>
+      </li>
+
+      {page + 1 <= totalPages && (
+        <li className="page-item">
+          <button
+            className="page-link"
+            type={'button'}
+            onClick={handlePage}
+            value={page + 1}
+          >
+            {page + 1}
+          </button>
+        </li>
+      )}
+    </>
   );
 };
