@@ -12,7 +12,6 @@ import stylesTab from '../../styles/components/Tab.module.css';
 
 export const Search = () => {
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const [currentQueryParameters, setSearchParams] = useSearchParams();
 
   const query = currentQueryParameters.get('query');
@@ -38,6 +37,11 @@ export const Search = () => {
     }
   };
 
+  const fn_search = (query) => {
+    currentQueryParameters.set('query', query);
+    setSearchParams(currentQueryParameters);
+  };
+
   useEffect(() => {
     document
       .getElementsByName(`tab`)
@@ -55,7 +59,7 @@ export const Search = () => {
 
   return (
     <div className="container">
-      <SearchBar initialQuery={query} />
+      <SearchBar initialQuery={query} fn_search={fn_search} />
 
       <div className="row">
         <div className="col-2">
@@ -83,10 +87,9 @@ export const Search = () => {
 
         <div className="col-10">
           <MoviesComponent movies={movies} />
+          <Pagination page={movies.page} totalPages={movies.total_pages} />
         </div>
       </div>
-
-      <Pagination page={page} />
     </div>
   );
 };
