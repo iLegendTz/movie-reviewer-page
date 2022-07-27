@@ -35,6 +35,42 @@ const PageItems = ({ page, totalPages, handlePage }) => {
     );
   }
 
+  if (page === 1) {
+    return (
+      <>
+        <li className="page-item active">
+          <button className="page-link" type={'button'} value={page}>
+            {page}
+          </button>
+        </li>
+
+        <li className="page-item">
+          <button
+            className="page-link"
+            type={'button'}
+            onClick={handlePage}
+            value={page + 1}
+          >
+            {page + 1}
+          </button>
+        </li>
+
+        {page + 2 <= totalPages && (
+          <li className="page-item">
+            <button
+              className="page-link"
+              type={'button'}
+              onClick={handlePage}
+              value={page + 2}
+            >
+              {page + 2}
+            </button>
+          </li>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       {page - 1 >= 1 && (
