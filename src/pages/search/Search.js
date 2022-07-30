@@ -79,6 +79,7 @@ export const Search = () => {
           <ul className="list-group">
             <li
               className={`list-group-item ${stylesTab.tab_hide}`}
+              style={{ cursor: 'pointer' }}
               name={`tab`}
               id={`tab_movies`}
               onClick={handleTab}
@@ -88,6 +89,7 @@ export const Search = () => {
             </li>
             <li
               className={`list-group-item ${stylesTab.tab_hide}`}
+              style={{ cursor: 'pointer' }}
               name={`tab`}
               id={`tab_tv_shows`}
               onClick={handleTab}
